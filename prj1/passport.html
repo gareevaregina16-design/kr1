@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>DOM_JS. Считываем информацию из DOM</title>
+    <style>
+        body {
+            font-family: "Times New Roman", serif;
+            background: #f5f5f5;
+            /*padding: 20px;*/
+            /*text-align: center;*/
+        }
+
+        h2 {
+            color: #3a2f1f;
+            margin-bottom: 10px;
+        }
+
+        .passport {
+            position: relative;
+            width: 528px;
+            height: 734px;
+            margin: 0 auto;
+            background-image: url("img/fon.png");
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #bca67a;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .info {
+            position: absolute;
+            top: 70px;
+            left: 0px;
+            color: #111;
+            text-align: left;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .image {
+            position: absolute; top: 220px; left: 330px;
+        }
+        .image img {
+            width: 110px;
+            height: auto;
+            background: transparent;
+        }
+
+        .image1 {
+            position: absolute; top: 430px; left: 25px;
+        }
+        .image1 img {
+            width: 145px;
+            height: auto;
+            background: transparent;
+        }
+
+
+        #org { position: absolute; top: 0; left: 150px; white-space: nowrap}
+        #date { position: absolute; top: 85px; left: 100px; white-space: nowrap}
+        #code { position: absolute; top: 85px; left: 290px; white-space: nowrap}
+        #surname { position: absolute; top: 330px; left: 220px; }
+        #name { position: absolute; top: 385px; left: 200px; }
+        #birth { position: absolute; top: 440px; left: 310px; }
+        #otch { position: absolute; top: 415px; left: 220px; white-space: nowrap}
+        #place { position: absolute; top: 470px; left: 220px; white-space: nowrap}
+
+        button {
+            margin-top: 20px;
+            padding: 8px 16px;
+            background: #bca67a;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 5px;
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+
+<ul class="nav nav-tabs justify-content-center">
+    <li class="nav-item">
+        <a class="nav-link" href="index.html">Главная</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="men.html">Мужская одежда</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="women.html">Женская одежда</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " href="contact.html">Заказы</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="passport.html">Паспорт</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " href="zadacha.html">Задача</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " href="https://www.zara.com" target="_blank">ZARA</a>
+    </li>
+</ul>
+
+
+
+<div class="passport">
+    <div class="info">
+        <span id="org">МВД по Республике Татарстан</span>
+        <span id="date">01.01.2014</span>
+        <span id="code">123-456</span>
+        <span id="surname">Иванова</span>
+        <span id="name">Мария</span>
+        <span id="otch">Ивановна</span>
+        <span id="birth">01.01.2000</span>
+        <span id="place">Г. Казань</span>
+    </div>
+    <div class="image">
+        <img src="img/podpis.png">
+    </div>
+    <div class="image1">
+        <img src="img/cat.jpg">
+    </div>
+
+</div>
+
+<button id="transBtn">Перевести</button>
+<div id="result" class="result"></div>
+<script>
+
+    function transliterate(text) {
+        if (!text) return text;
+
+        text = text.replace(/[ЬьЪъ\u02B9\u02BC\u2018\u2019\u201B]/gu, '');
+
+        const map = {
+            'А':'A','Б':'B','В':'V','Г':'G','Д':'D','Е':'E','Ё':'E','Ж':'Zh','З':'Z','И':'I','Й':'Y',
+            'К':'K','Л':'L','М':'M','Н':'N','О':'O','П':'P','Р':'R','С':'S','Т':'T','У':'U','Ф':'F',
+            'Х':'Kh','Ц':'Ts','Ч':'Ch','Ш':'Sh','Щ':'Sch','Ы':'Y','Э':'E','Ю':'Yu','Я':'Ya',
+            'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i','й':'y',
+            'к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f',
+            'х':'kh','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ы':'y','э':'e','ю':'yu','я':'ya'
+        };
+
+        return Array.from(text).map(ch => map[ch] ?? ch).join('');
+    }
+
+
+    (function(){
+        let isLatin = false;
+
+        const elems = ['org', 'surname', 'name', 'otch', 'birth', 'place'];
+
+        document.getElementById('transBtn').onclick = function() {
+            if (!isLatin) {
+
+                elems.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    if (!el.dataset.original) el.dataset.original = el.innerText;
+                    el.innerText = transliterate(el.innerText);
+                });
+                this.innerText = 'Перевести обратно';
+                isLatin = true;
+            } else {
+
+                elems.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    if (el.dataset.original) el.innerText = el.dataset.original;
+                });
+                this.innerText = 'Перевести';
+                isLatin = false;
+            }
+        };
+    })();
+</script>
+
+
+<h2>DOM_JS. Считываем информацию из DOM</h2>
+<a href = "img/dom.png" target = "_self">Ссылка на картинку</a>
+
+</body>
+</html>
