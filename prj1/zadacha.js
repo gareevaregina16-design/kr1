@@ -17,7 +17,11 @@ document.getElementById('solveBtn').addEventListener('click', ()=>{
         else if(fitsCyl) msg += 'Результат: поместится ТОЛЬКО в цилиндр.';
         else msg += 'Результат: ни в одну ёмкость не поместится.';
         document.getElementById('solveResult').innerHTML = '<pre>' + msg + '</pre>';
+        document.getElementById('cubeVolume').value = vCube.toFixed(6);
+        document.getElementById('cylinderVolume').value = vCyl.toFixed(6);
+        document.getElementById('result').value = msg;
     }catch(e){
         document.getElementById('solveResult').innerText = 'Ошибка: ' + e;
     }
+
 });
